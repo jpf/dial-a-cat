@@ -3,6 +3,7 @@ from StringIO import StringIO
 from itertools import izip_longest
 from random import choice
 from wave import Wave_write
+import os
 import re
 import requests
 import struct
@@ -171,32 +172,33 @@ def cat_sstv_wav(id):
     cat = CatAPIPicture(id=id)
     cat.image_get()
     cat.image_scale_to(target)
-    cat.image.save('flask-image-example.png')
 
     generator = FileGenerator()
     slowscan = MartinM2Generator(cat.image, 48000, 16)
     MartinM2GeneratorWorker(slowscan, generator).start()
 
     rv = Response(generator.read_generator(), mimetype='audio/wav')
-    rv.headers['X-Foo'] = 'Bar'
     rv.headers['Content-Length'] = 5568508
+    rv.headers['Cache-Timeout'] = 14400  # 4 hours
     # rv.headers['Cache-Timeout'] = 604800 # 1 week
     return rv
 
 
 @app.route('/test.wav')
 def image_test():
-    image = Image.open('tests/assets/160x256_test_pattern.png')
+    image = Image.open('pySSTV/tests/assets/160x256_test_pattern.png')
 
     generator = FileGenerator()
-    slowscan = MartinM2(image, 48000, 16)
+    slowscan = MartinM2Generator(image, 48000, 16)
     MartinM2GeneratorWorker(slowscan, generator).start()
 
     rv = Response(generator.read_generator(), mimetype='audio/wav')
-    rv.headers['X-Foo'] = 'Bar'
-    rv.headers['Content-Length'] = 5661190
+    rv.headers['Content-Length'] = 5568508
     return rv
 
 if __name__ == "__main__":
-    app.debug = True
-    app.run()
+    # Bind to PORT if defined, otherwise default to 5000.
+    port = int(os.environ.get('PORT', 5000))
+    if port == 5000:
+        app.debug = True
+    app.run(host='0.0.0.0', port=port)
