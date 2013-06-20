@@ -1,15 +1,17 @@
-import requests
-import re
 from PIL import Image
 from StringIO import StringIO
-import threading
+from itertools import izip_longest
 from random import choice
+from wave import Wave_write
+import re
+import requests
+import struct
+import threading
 
 from flask import Flask
-from flask import url_for
 from flask import Response
+from flask import url_for
 from twilio import twiml
-import boto
 
 from color import MartinM2
 from filegenerator import FileGenerator
@@ -17,7 +19,42 @@ from filegenerator import FileGenerator
 app = Flask(__name__)
 
 
-class WavWorker(threading.Thread):
+class WaveWriteNoSeek(Wave_write):
+    def _patchheader(self):
+        return None
+
+
+def grouper(iterable, n, fillvalue=None):
+    "Collect data into fixed-length chunks or blocks"
+    # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx
+    args = [iter(iterable)] * n
+    return izip_longest(fillvalue=fillvalue, *args)
+
+
+class MartinM2Generator(MartinM2):
+    def write_wav_generator(self, filename):
+        """write image to a FileGenerator that will be served by Flask"""
+        wav = WaveWriteNoSeek(filename)
+        wav.setnchannels(1)
+        wav.setsampwidth(self.bits // 8)
+        wav.setframerate(self.samples_per_sec)
+        #wav.setnframes(5529608)  # Martin M1
+        wav.setnframes(2830573)  # Martin M2
+        fmt = '<' + self.BITS_TO_STRUCT[self.bits]
+
+        def not_none(thing):
+            return thing is not None
+
+        # arbitrary, but reasonable seeming default
+        group_size = self.samples_per_sec
+        for sample in grouper(self.gen_samples(), group_size):
+            samples = (struct.pack(fmt, b) for b in sample if not_none(b))
+            data = ''.join(samples)
+            wav.writeframes(data)
+        wav.close()
+
+
+class MartinM2GeneratorWorker(threading.Thread):
     def __init__(self, wav, generator):
         self.wav = wav
         self.generator = generator
@@ -137,8 +174,8 @@ def cat_sstv_wav(id):
     cat.image.save('flask-image-example.png')
 
     generator = FileGenerator()
-    slowscan = MartinM2(cat.image, 48000, 16)
-    WavWorker(slowscan, generator).start()
+    slowscan = MartinM2Generator(cat.image, 48000, 16)
+    MartinM2GeneratorWorker(slowscan, generator).start()
 
     rv = Response(generator.read_generator(), mimetype='audio/wav')
     rv.headers['X-Foo'] = 'Bar'
@@ -153,7 +190,7 @@ def image_test():
 
     generator = FileGenerator()
     slowscan = MartinM2(image, 48000, 16)
-    WavWorker(slowscan, generator).start()
+    MartinM2GeneratorWorker(slowscan, generator).start()
 
     rv = Response(generator.read_generator(), mimetype='audio/wav')
     rv.headers['X-Foo'] = 'Bar'
