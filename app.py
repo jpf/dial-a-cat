@@ -1,128 +1,18 @@
 from PIL import Image
-from StringIO import StringIO
-from itertools import izip_longest
 from random import choice
-from wave import Wave_write
 import os
-import re
-import requests
-import struct
-import threading
 
 from flask import Flask
 from flask import Response
 from flask import url_for
 from twilio import twiml
 
-from color import MartinM2
+from catapi import CatAPIPicture
 from filegenerator import FileGenerator
+from martinstreaming import MartinM2Generator
+from martinstreaming import MartinM2GeneratorWorker
 
 app = Flask(__name__)
-
-
-class WaveWriteNoSeek(Wave_write):
-    def _patchheader(self):
-        return None
-
-
-def grouper(iterable, n, fillvalue=None):
-    "Collect data into fixed-length chunks or blocks"
-    # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx
-    args = [iter(iterable)] * n
-    return izip_longest(fillvalue=fillvalue, *args)
-
-
-class MartinM2Generator(MartinM2):
-    def write_wav_generator(self, filename):
-        """write image to a FileGenerator that will be served by Flask"""
-        wav = WaveWriteNoSeek(filename)
-        wav.setnchannels(1)
-        wav.setsampwidth(self.bits // 8)
-        wav.setframerate(self.samples_per_sec)
-        #wav.setnframes(5529608)  # Martin M1
-        wav.setnframes(2830573)  # Martin M2
-        fmt = '<' + self.BITS_TO_STRUCT[self.bits]
-
-        def not_none(thing):
-            return thing is not None
-
-        # arbitrary, but reasonable seeming default
-        group_size = self.samples_per_sec
-        for sample in grouper(self.gen_samples(), group_size):
-            samples = (struct.pack(fmt, b) for b in sample if not_none(b))
-            data = ''.join(samples)
-            wav.writeframes(data)
-        wav.close()
-
-
-class MartinM2GeneratorWorker(threading.Thread):
-    def __init__(self, wav, generator):
-        self.wav = wav
-        self.generator = generator
-        threading.Thread.__init__(self)
-
-    def run(self):
-        self.wav.write_wav_generator(self.generator)
-
-
-class CatAPIPicture:
-    def __init__(self, id=False):
-        self.image = None
-        if id:
-            self.id = id
-            self._image_from_id()
-        else:
-            self._random_image()
-
-    def _random_image(self):
-        url = 'http://thecatapi.com/api/images/get?format=xml&type=jpg'
-        return self._fetch_url(url)
-
-    def _image_from_id(self):
-        url = 'http://thecatapi.com/api/images/get?format=xml&id=%s' % self.id
-        return self._fetch_url(url)
-
-    def _fetch_url(self, url):
-        r = requests.get(url)
-        match = re.search(r"<id>([^<]+)</id>", r.content)
-        self.id = match.group(1)
-        match = re.search(r"<url>([^<]+)</url>", r.content)
-        self.url = match.group(1)
-        match = re.search(r"<source_url>([^<]+)</source_url>", r.content)
-        self.source_url = match.group(1)
-
-    def image_get(self):
-        r = requests.get(self.url)
-        self.image = Image.open(StringIO(r.content))
-
-    def image_scale_to(self, target_tuple):
-        target = Size(target_tuple)
-        actual = Size(self.image.size)
-        changed = Size()
-        scale = float(target.width) / float(actual.width)
-        changed.width = int(round(actual.width * scale))
-        changed.height = int(round(actual.height * scale))
-        want = changed.as_tuple()
-        resized = self.image.resize(want)
-        if changed.height < target.height:
-            # add blackness to the bottom
-            black = Image.new('RGB', (target.width, target.height))
-            black.paste(resized, (0, 0))
-            resized = black
-        elif changed.height > target.height:
-            # crop out the bottom
-            resized = resized.crop((0, 0, target.width, target.height))
-        self.image = resized
-
-
-class Size:
-    def __init__(self, input=None):
-        if input is None:
-            input = (0, 0)
-        (self.width, self.height) = input
-
-    def as_tuple(self):
-        return (self.width, self.height)
 
 
 @app.route('/')
@@ -178,7 +68,7 @@ def cat_sstv_wav(id):
     MartinM2GeneratorWorker(slowscan, generator).start()
 
     rv = Response(generator.read_generator(), mimetype='audio/wav')
-    rv.headers['Content-Length'] = 5568508
+    rv.headers['Content-Length'] = 5661190
     rv.headers['Cache-Timeout'] = 14400  # 4 hours
     # rv.headers['Cache-Timeout'] = 604800 # 1 week
     return rv
@@ -193,7 +83,7 @@ def image_test():
     MartinM2GeneratorWorker(slowscan, generator).start()
 
     rv = Response(generator.read_generator(), mimetype='audio/wav')
-    rv.headers['Content-Length'] = 5568508
+    rv.headers['Content-Length'] = 5661190
     return rv
 
 if __name__ == "__main__":
