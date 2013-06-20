@@ -58,10 +58,9 @@ def random_cat():
 @app.route('/cat-api/v1/sstv-<id>.wav')
 def cat_sstv_wav(id):
     # MartinM2
-    target = (160, 256)
     cat = CatAPIPicture(id=id)
     cat.image_get()
-    cat.image_scale_to(target)
+    cat.image_scale_to_martin_m2()
 
     generator = FileGenerator()
     slowscan = MartinM2Generator(cat.image, 48000, 16)

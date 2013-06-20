@@ -34,12 +34,13 @@ class CatAPIPicture:
         r = requests.get(self.url)
         self.image = Image.open(StringIO(r.content))
 
-    def image_scale_to(self, target_tuple):
-        target = Size(target_tuple)
+    def image_scale_to_martin_m2(self):
+        target = Size((320, 256))
         actual = Size(self.image.size)
         changed = Size()
         scale = float(target.width) / float(actual.width)
-        changed.width = int(round(actual.width * scale))
+        # changed.width = int(round(actual.width * scale))
+        changed.width = 160  # Resize to Martin M1, squish for M2
         changed.height = int(round(actual.height * scale))
         want = changed.as_tuple()
         resized = self.image.resize(want)
