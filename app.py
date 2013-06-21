@@ -80,10 +80,10 @@ def voice_help():
         g.say("or.")
         g.say("Press 8 for a live rendered cat.")
         g.say("or.")
-        g.say("Press the pound sign to skip.")
+        g.say("Press the pound sign to skip transmission.")
         g.say("or.")
         g.say("Press 0 for help.")
-        g.say("What happens when you press 3?")
+        g.say("What happens when you press 7?")
         g.say("There is only one way to find out.")
     r.redirect(url_for('voice_instructions', _external=True))
     return str(r)
@@ -113,11 +113,10 @@ def voice_live_rendered_cat():
 
     gather_args = get_gather_args()
     r = twiml.Response()
+    r.say("Rendering a random cat image now.")
+    r.say("This will take up to thirty seconds.")
+    r.say("Please stand by for transmission.")
     with r.gather(**gather_args) as g:
-        g.say("Rendering a totally random cat image.")
-        g.say("This will take up to thirty seconds.")
-        g.pause()
-        g.say("Please stand by for transmission.")
         g.play(sstv_wav_url)
     r.redirect(url_for('voice_live_rendered_cat', _external=True))
     return str(r)
@@ -156,8 +155,10 @@ def image_test():
 def easter_egg(id):
     filename = "easter-egg-%s.wav" % str(id)
     wav = 'https://s3.amazonaws.com/jf-sstv-cats/%s' % filename
+    gather_args = get_gather_args()
     r = twiml.Response()
-    r.play(wav)
+    with r.gather(**gather_args) as g:
+        g.play(wav)
     r.redirect(url_for('voice_instructions', _external=True))
     return str(r)
 
