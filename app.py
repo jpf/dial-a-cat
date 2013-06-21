@@ -60,12 +60,12 @@ def voice_instructions():
     gather_args = get_gather_args()
     r = twiml.Response()
     with r.gather(**gather_args) as g:
-        g.say("Your S S T V Transmission will be starting shortly.")
-        g.pause()
-        g.say("This transmission will be in the Martin M Two format")
+        g.say(("An S S T V Transmission "
+               "in the Martin M Two format will be starting shortly."))
         g.pause()
         g.say("For help press 0")
         g.pause()
+        g.say("Stand by for transmission.")
     r.redirect(url_for('voice_prerendered_cat', _external=True))
     return str(r)
 
@@ -98,8 +98,8 @@ def voice_prerendered_cat():
     gather_args = get_gather_args()
     r = twiml.Response()
     with r.gather(**gather_args) as g:
-        g.say("Stand by for transmission")
         g.play(wav)
+        g.say("Stand by for transmission")
     r.redirect(url_for('voice_prerendered_cat', _external=True))
     return str(r)
 
