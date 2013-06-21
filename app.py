@@ -49,17 +49,21 @@ def voice_main():
     return str(r)
 
 
+def get_gather_args():
+    return {'action': url_for('voice_handle_gather', _external=True),
+            'numDigits': 1,
+            'timeout': 1}
+
+
 @app.route('/voice/instructions', methods=['GET', 'POST'])
 def voice_instructions():
-    gather_args = {
-        'action': url_for('voice_handle_gather', _external=True),
-        'numDigits': 1,
-        'timeout': 1}
-
+    gather_args = get_gather_args()
     r = twiml.Response()
     with r.gather(**gather_args) as g:
-        g.say(("Your S S T V Transmission in the Martin M Two format"
-               " will be starting shortly."))
+        g.say("Your S S T V Transmission will be starting shortly.")
+        g.pause()
+        g.say("This transmission will be in the Martin M Two format")
+        g.pause()
         g.say("For help press 0")
         g.pause()
     r.redirect(url_for('voice_prerendered_cat', _external=True))
@@ -68,18 +72,17 @@ def voice_instructions():
 
 @app.route('/voice/help', methods=['GET', 'POST'])
 def voice_help():
-    gather_args = {
-        'action': url_for('voice_handle_gather', _external=True),
-        'numDigits': 1,
-        'timeout': 1}
-
+    gather_args = get_gather_args()
     r = twiml.Response()
     with r.gather(**gather_args) as g:
-        g.say("At any time during this call you may")
-        g.say("Press 2 for a pre rendered cat")
-        g.say("Press 8 for a live rendered cat")
-        g.say("Press the pound sign to skip")
-        g.say("Press 0 for help")
+        g.say("At any time during this call you may:")
+        g.say("Press 2 for a pre rendered cat.")
+        g.say("or.")
+        g.say("Press 8 for a live rendered cat.")
+        g.say("or.")
+        g.say("Press the pound sign to skip.")
+        g.say("or.")
+        g.say("Press 0 for help.")
         g.say("What happens when you press 3?")
         g.say("There is only one way to find out.")
     r.redirect(url_for('voice_instructions', _external=True))
@@ -92,11 +95,7 @@ def voice_prerendered_cat():
     images = [i.strip() for i in f.readlines()]
     wav = 'https://s3.amazonaws.com/jf-sstv-cats/%s' % choice(images)
 
-    gather_args = {
-        'action': url_for('voice_handle_gather', _external=True),
-        'numDigits': 1,
-        'timeout': 1}
-
+    gather_args = get_gather_args()
     r = twiml.Response()
     with r.gather(**gather_args) as g:
         g.say("Stand by for transmission")
@@ -112,11 +111,7 @@ def voice_live_rendered_cat():
                            id=cat.id,
                            _external=True)
 
-    gather_args = {
-        'action': url_for('voice_handle_gather', _external=True),
-        'numDigits': 1,
-        'timeout': 1}
-
+    gather_args = get_gather_args()
     r = twiml.Response()
     with r.gather(**gather_args) as g:
         g.say("Rendering a totally random cat image.")
