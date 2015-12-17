@@ -2,7 +2,7 @@
 # The "README.md" file is generated from this file by running the
 # "M-x org-md-export-to-markdown" command from inside of Emacs.
 # 
-# The "cleaner.py" file is generated from this file by running the
+# Most of the other files in this repository are generated from this file by running the
 # "M-x org-babel-tangle" command from inside of Emacs.
 # 
 # Don't render a Table of Contents 
