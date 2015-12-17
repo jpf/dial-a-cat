@@ -12,14 +12,20 @@
 # Turn of subscript parsing: http://super-user.org/wordpress/2012/02/02/how-to-get-rid-of-subscript-annoyance-in-org-mode/comment-page-1/
 #+OPTIONS: ^:{}
 * 1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology
-  FIXME: "Hero" image here
+  #+CAPTION: A space age cat
+  [[https://www.twilio.com/blog/wp-content/uploads/2013/10/1336023490071-800x265.png]]
+
+  *Note!* The text below was originally posted on the Twilio blog as
+  the post "[[https://www.twilio.com/blog/2013/10/1-855-meow-jam-sending-cat-pictures-over-the-phone-via-space-age-technology.html][1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology]]"
 
   On July 20, 1969, at 20:18 UTC, Neil Armstrong was the first human to
   set foot on the Moon. Video of Neil descending the ladder of the lunar
   module was broadcast to earth at 10 frames a second via an image
   transmission method known as Slow-scan Television, or “SSTV”.
 
-  FIXME: Image of Neil here
+  #+BEGIN_HTML
+  <a title="By National Aeronautics and Space Administration (NASA&#039;s Apollo 11 Multimedia webpage) [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AApollo_11_first_step.jpg"><img width="256" alt="Apollo 11 first step" src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Apollo_11_first_step.jpg"/></a>
+  #+END_HTML
 
   Today I’ll be showing you how to use the space-age technology of
   SSTV and your telephone to do something critical to human progress:
@@ -109,7 +115,9 @@
    - Move your earbuds to bottom of your phone, near your phone’s microphone.
    - Hold your earbuds in place until you receive the image. (I used
      this method to get the cat image below)
-     FIXME: Put the corrupted cat image here.
+     #+BEGIN_HTML
+       <img class="aligncenter" id="docs-internal-guid-23564e96-e6a5-f3e4-9335-f212f2dae5af" alt="" src="https://lh6.googleusercontent.com/CNckYGCVUKfbC_WJSL6L4STeD8JjAZ_cnoVwVsRo2FcFeTjY2iQcIsrbhZ0ma4rsTdajaikgc98RtpZll0F-PM7Zz3Et8xzdqo3K9Ywjh9wI0JlKpMN59E93" width="376px;" height="144px;">
+     #+END_HTML
 
 ** Motivation
    When I first met Dave Rauchwerk, we quickly discovered that we both
@@ -914,7 +922,10 @@
    CLOCK: [2015-12-17 Thu 00:15]--[2015-12-17 Thu 00:17] =>  0:02
 ** DONE Add in .gitignore
    CLOCK: [2015-12-17 Thu 00:17]--[2015-12-17 Thu 00:19] =>  0:02
-** TODO Fix FIXME images
+** DONE Fix FIXME images
+   CLOCK: [2015-12-17 Thu 00:19]--[2015-12-17 Thu 00:30] =>  0:11
+** DONE Link to original Twilio post
+   CLOCK: [2015-12-17 Thu 00:30]--[2015-12-17 Thu 00:32] =>  0:02
 ** TODO Include pySSTV as a submodule
    http://stackoverflow.com/a/17776490
 ** TODO Link directly into the submodule, don't use symlinks

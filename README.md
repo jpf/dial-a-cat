@@ -1,13 +1,16 @@
 # 1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology
 
-FIXME: "Hero" image here
+![img](//www.twilio.com/blog/wp-content/uploads/2013/10/1336023490071-800x265.png "A space age cat")
+
+**Note!** The text below was originally posted on the Twilio blog as
+the post "[1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology](https://www.twilio.com/blog/2013/10/1-855-meow-jam-sending-cat-pictures-over-the-phone-via-space-age-technology.html)"
 
 On July 20, 1969, at 20:18 UTC, Neil Armstrong was the first human to
 set foot on the Moon. Video of Neil descending the ladder of the lunar
 module was broadcast to earth at 10 frames a second via an image
 transmission method known as Slow-scan Television, or “SSTV”.
 
-FIXME: Image of Neil here
+<a title="By National Aeronautics and Space Administration (NASA&#039;s Apollo 11 Multimedia webpage) [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AApollo_11_first_step.jpg"><img width="256" alt="Apollo 11 first step" src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Apollo_11_first_step.jpg"/></a>
 
 Today I’ll be showing you how to use the space-age technology of
 SSTV and your telephone to do something critical to human progress:
@@ -94,7 +97,8 @@ If you are running SSTV software on Android, you can use earbuds to
 -   Move your earbuds to bottom of your phone, near your phone’s microphone.
 -   Hold your earbuds in place until you receive the image. (I used
     this method to get the cat image below)
-    FIXME: Put the corrupted cat image here.
+    
+    <img class="aligncenter" id="docs-internal-guid-23564e96-e6a5-f3e4-9335-f212f2dae5af" alt="" src="https://lh6.googleusercontent.com/CNckYGCVUKfbC_WJSL6L4STeD8JjAZ_cnoVwVsRo2FcFeTjY2iQcIsrbhZ0ma4rsTdajaikgc98RtpZll0F-PM7Zz3Et8xzdqo3K9Ywjh9wI0JlKpMN59E93" width="376px;" height="144px;">
 
 ## Motivation
 
