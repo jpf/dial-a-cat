@@ -12,8 +12,9 @@
 # Turn of subscript parsing: http://super-user.org/wordpress/2012/02/02/how-to-get-rid-of-subscript-annoyance-in-org-mode/comment-page-1/
 #+OPTIONS: ^:{}
 * 1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology
-  #+CAPTION: A space age cat
-  [[https://www.twilio.com/blog/wp-content/uploads/2013/10/1336023490071-800x265.png]]
+  #+BEGIN_HTML
+    <img width="800" height="265" src="https://www.twilio.com/blog/wp-content/uploads/2013/10/1336023490071-800x265.png" alt="A space age cat">
+  #+END_HTML
 
   *Note!* The text below was originally posted on the Twilio blog as
   the post "[[https://www.twilio.com/blog/2013/10/1-855-meow-jam-sending-cat-pictures-over-the-phone-via-space-age-technology.html][1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology]]"

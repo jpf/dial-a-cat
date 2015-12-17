@@ -1,6 +1,6 @@
 # 1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology
 
-![img](//www.twilio.com/blog/wp-content/uploads/2013/10/1336023490071-800x265.png "A space age cat")
+<img width="800" height="265" src="https://www.twilio.com/blog/wp-content/uploads/2013/10/1336023490071-800x265.png" alt="A space age cat">
 
 **Note!** The text below was originally posted on the Twilio blog as
 the post "[1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology](https://www.twilio.com/blog/2013/10/1-855-meow-jam-sending-cat-pictures-over-the-phone-via-space-age-technology.html)"
