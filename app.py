@@ -140,7 +140,6 @@ def cat_sstv_wav(id):
     cat.image_scale_to_martin_m2()
     rv = live_martin_m2_renderer(cat.image)
     timeout = 14400  # 4 hours
-    # timeout = 604800 # 1 week
     rv.headers['Cache-Timeout'] = timeout
     return rv
 

@@ -1,0 +1,915 @@
+# This is a file written in Emacs and authored using org-mode (http://orgmode.org/)
+# The "README.md" file is generated from this file by running the
+# "M-x org-md-export-to-markdown" command from inside of Emacs.
+# 
+# The "cleaner.py" file is generated from this file by running the
+# "M-x org-babel-tangle" command from inside of Emacs.
+# 
+# Don't render a Table of Contents 
+#+OPTIONS: toc:nil
+# Don't render section numbers
+#+OPTIONS: num:nil
+# Turn of subscript parsing: http://super-user.org/wordpress/2012/02/02/how-to-get-rid-of-subscript-annoyance-in-org-mode/comment-page-1/
+#+OPTIONS: ^:{}
+* 1-855-MEOW JAM: Sending Cat Pictures Over The Phone Via Space Age Technology
+  FIXME: "Hero" image here
+
+  On July 20, 1969, at 20:18 UTC, Neil Armstrong was the first human to
+  set foot on the Moon. Video of Neil descending the ladder of the lunar
+  module was broadcast to earth at 10 frames a second via an image
+  transmission method known as Slow-scan Television, or “SSTV”.
+
+  FIXME: Image of Neil here
+
+  Today I’ll be showing you how to use the space-age technology of
+  SSTV and your telephone to do something critical to human progress:
+  look at pictures of cats.
+
+  We’ll be using an SSTV transmission mode called “[[http://en.wikipedia.org/wiki/Slow-scan_television#Modes][Martin M2]]”. Martin
+  M2 is an SSTV transmission mode which is popular with European Ham
+  radio operators and differs significantly from the system that NASA
+  used to transmit images back from the moon.
+
+
+  Keep in mind that this post is just for fun and a little
+  complicated. If you want an easy way to send pictures to mobile
+  phones, you should look at [[https://www.twilio.com/mms][Twilio Picture Messaging]].
+
+  In any event, here is what I’ll be covering in this blog post:
+
+  - How to use Dial-A-Cat
+  - Motivation: Why I built dial-a-cat
+  - How it works
+  - How to convert an image to an SSTV transmission
+  - How to build an IVR with Twilio
+** How To Use Dial-A-Cat
+   Are you wondering what this all looks like? Below is a video that
+   shows my cellphone and laptop to receiving a cat picture.
+
+   #+BEGIN_HTML
+   <center>
+     <iframe width="560" height="315" src="https://www.youtube.com/embed/B7bVzBhg_GM?rel=0&amp;start=35" allowfullscreen="" frameborder="0"></iframe>
+   </center>
+   #+END_HTML
+
+   Want to try that out yourself? Before you can start “dialing” cat pictures, you’ll need the following:
+
+   - A telephone with good audio quality.
+     (If your cell-phone doesn’t work, try a hardwired phone)
+
+   One of the following:
+
+   - A computer running Linux, OS X, or Windows
+   - An iPhone or Android phone
+   - [[http://en.wikipedia.org/wiki/Slow-scan_television#External_links][SSTV software capable of decoding Martin M2 transmissions]]
+     - Linux – [[http://users.telenet.be/on4qz/][qsstv]] (Ubuntu users should use this [[http://askubuntu.com/questions/4983/what-are-ppas-and-how-do-i-use-them][PPA]]: =ppa:kamalmostafa/qsstv=)
+     - OS X – [[https://s3.amazonaws.com/jf-files/MultiScan_2SL.zip][MultiScan 2SL]]
+     - Windows – [[http://users.belgacom.net/hamradio/rxsstv.htm][RX-SSTV]]
+     - iPhone – [[https://itunes.apple.com/us/app/sstv/id387910013][SSTV]] ($3)
+     - Android – [[https://play.google.com/store/apps/details?id=com.wolphi.sstv&hl=en][DroidSSTV]] ($7)
+
+** How to dial your first cat:
+   - Use one of the links above to download and install the SSTV software
+     for your computer or smartphone.
+   - Use a telephone to dial this number: +1 855-MEOW-JAM (855 636-9526)
+   - You’ll hear some instructions on how to use “dial-a-cat”.
+   - When you hear “standby”, hold the speaker of your phone up to the microphone of the device running the SSTV decoding software.
+   - Wait for your cat picture to show up.
+
+   What to do after you’ve seen all of the pre-rendered images:
+
+   - Press the “8” at any time while you’re connected to dial-a-cat.
+   - A cat picture will be selected Just For You using [[http://www.thecatapi.com/][The Cat API]].
+   - This image will be rendered into an SSTV transmission for you on-the-fly.
+   - It takes about 15-30 seconds for this image to be rendered, be
+     patient.
+
+   What happens if you press the “7” button while connected to dial-a-cat? It’s a mystery.
+
+** Tips For Receiving A Clear Transmission
+
+   SSTV is an analog audio transmission, so it is vulnerable to
+   interference from other audio sources in your environment. Try the
+   following things if you’re having trouble receiving images:
+
+
+   Call from a phone with good audio quality. A hardwired telephone is
+   ideal. Move to a quiet room. Plug earbuds into your phone and hold
+   the earbuds right next to the microphone on your device.
+
+
+   If you are running SSTV software on Android, you can use earbuds to
+   “loopback” the audio to your phone as follows:
+
+
+   - Plug earbuds into your phone.
+   - Dial +1 855-636-9526
+   - Turn the volume on your earbuds to a medium-low volume.
+   - When you start to hear the instructions, switch to DroidSSTV.
+   - Move your earbuds to bottom of your phone, near your phone’s microphone.
+   - Hold your earbuds in place until you receive the image. (I used
+     this method to get the cat image below)
+     FIXME: Put the corrupted cat image here.
+
+** Motivation
+   When I first met Dave Rauchwerk, we quickly discovered that we both
+   shared a love of obscure or forgotten technology.
+
+   Among the things that we discussed, Dave told me about SSTV, how
+   SSTV was used to send images back from the moon and about an art
+   installation he had done using SSTV.
+
+   Dave’s art installation consisted of a room with digital picture
+   frames that would listen for SSTV audio nearby and display images
+   from those SSTV transmissions in the picture frame. Also inside the
+   room was a digital camera that Dave had modified to “play” the
+   pictures it took into the room. When a visitor took a picture with
+   the camera, the camera would use sound to transmit the image to the
+   picture frames.
+
+   I was so inspired by Dave’s art project that I knew I had to do
+   something with Twilio and SSTV.
+
+   Naturally, I wanted build something that would use the
+   telephone. But what to send? I had trouble deciding at first. Then I
+   realized that everybody likes pictures of cats.
+
+   (Incidentally, one of my co-workers suggested that dial-a-cat would
+   be a great way to generate album art for your band’s next album.)
+
+** How It Works
+  :PROPERTIES:
+  :header-args: :padline no
+  :END:
+   Now that you’ve seen what dial-a-cat does and learned what inspired
+   me to build it. Let’s dig into how it works.
+
+
+   Here are the components that make up dial-a-cat:
+   - Twilio
+   - Python
+   - [[http://flask.pocoo.org/][Flask]]
+   - [[https://github.com/dnet/pySSTV][pySSTV]]
+   - [[http://thecatapi.com/][The Cat API]]
+   - [[https://github.com/jpf/FileGenerator][FileGenerator]]
+
+   The components above are combined into code to that generates an
+   SSTV transmission audio stream from an image, and a Twilio IVR to
+   control dial-a-cat. This allows people to switch between
+   pre-rendered and “live” SSTV transmissions.
+
+   My code makes heavy use of the excellent [[https://github.com/dnet/pySSTV][pySSTV]] library from [[http://techblog.vsza.hu/][András
+   Veres-Szentkirályi]].  If you’re at all interested in learning more
+   about SSTV, I recommend that you read the source to pySSTV.
+
+   All the code that I used to build [[https://github.com/jpf/dial-a-cat][dial-a-cat is available on
+   GitHub]]. I’m only going to be covering the key parts of dial-a-cat in
+   this post, so if you want to really get a good understand of how
+   everything works, you’ll need to look at the code.
+
+** Transmitting SSTV images over the telephone
+   The simplest way to transmit SSTV images over the telephone is to
+   pre-render an audio file with the SSTV transmission and have Twilio
+   play that file.
+
+   Here’s the function that I use to do that. This function will
+   randomly pick a URL from a list of pre-rendered SSTV transmissions
+   and return that URL in TwiML:
+
+   #+NAME: random-prerendered-cat-route
+   #+BEGIN_SRC python
+     @app.route('/voice/random-prerendered-cat', methods=['GET', 'POST'])
+     def voice_prerendered_cat():
+         f = open('image-list.txt')
+         images = [i.strip() for i in f.readlines()]
+         wav = 'https://s3.amazonaws.com/jf-sstv-cats/%s' % choice(images)
+
+         gather_args = get_gather_args()
+         r = twiml.Response()
+         with r.gather(**gather_args) as g:
+             g.play(wav)
+             g.say("Stand by for transmission")
+         r.redirect(url_for('voice_prerendered_cat', _external=True))
+         return str(r)
+   #+END_SRC
+
+   Easy, right? Almost too easy.
+
+   What if we wanted to generate an SSTV transmission from some random
+   image on the internet? Well, that’s a little bit more complicated
+   and involves approximately 30 methods across 5 files.
+
+   As you read the code, you’ll probably be wondering why it is so much
+   more complicated than what I just showed you above. Well, the key
+   obstacle that I needed to overcome here was getting data to Twilio
+   before the 15 second timeout. It takes about 20 seconds to generate
+   a Martin M2 SSTV transmission and Twilio will close the connection
+   if doesn’t get a response to a HTTP request after 15 seconds.
+
+   To overcome this obstacle, I wrote a little hack to stream the SSTV
+   transmission as it’s being generated. Read on to see how.
+
+   #+NAME: cat-api-sstv-route
+   #+BEGIN_SRC python
+     @app.route('/cat-api/v1/sstv-<id>.wav')
+     def cat_sstv_wav(id):
+         cat = CatAPIPicture(id=id)
+         cat.image_get()
+         cat.image_scale_to_martin_m2()
+         rv = live_martin_m2_renderer(cat.image)
+         timeout = 14400  # 4 hours
+         rv.headers['Cache-Timeout'] = timeout
+         return rv
+   #+END_SRC
+
+   This is the core function that handles “live” conversion of a random image to a Martin M2 SSTV transmission. At a high level, this function gets an image from the Cat API, scales it to be appropriately sized for for Martin M2 (160 pixels by 256 pixels), passes the scaled image to a function that will render that image into Martin M2, then has Flask to feed rendered transmission to Twilio.
+
+   All the “heavy lifting” is done in the live_martin_m2_render() function. So, let’s take a closer look at that:
+
+   #+NAME: live-martin-m2-renderer-function
+   #+BEGIN_SRC python :noweb yes :padline no
+     def live_martin_m2_renderer(image):
+         <<instantiate-file-generator>>
+         <<instantiate-martinm2generator>>
+
+         <<run-martinm2generatorworker>>
+
+         <<return-response>>
+
+   #+END_SRC
+
+   Let’s cover this line by line.
+
+   #+NAME: instantiate-file-generator
+   #+BEGIN_SRC python
+     generator = FileGenerator()
+   #+END_SRC
+
+   Here I am instantiating a file-like object that can be read via a
+   generator, I call this a =FileGenerator=. This is the key part of what
+   allows me to stream the WAV file as it is being written.
+
+   #+NAME: instantiate-martinm2generator
+   #+BEGIN_SRC python
+     slowscan = MartinM2Generator(image, 48000, 16)
+   #+END_SRC
+
+   This is instantiating a =MartinM2Generator= object, a class that is
+   extended from the pySSTV’s =MartinM2= class and modified so that it
+   can be used with a =FileGenerator=.
+
+   #+NAME: run-martinm2generatorworker
+   #+BEGIN_SRC python
+     MartinM2GeneratorWorker(slowscan, generator).start()
+   #+END_SRC
+
+   This starts up a thread which starts writing the WAV file to the
+   FileGenerator.
+   #+NAME: return-response
+   #+BEGIN_SRC python
+     rv = Response(generator.read_generator(), mimetype='audio/wav')
+     rv.headers['Content-Length'] = 5661190
+     return rv
+   #+END_SRC
+
+   Finally, I return a generator that [[http://flask.pocoo.org/docs/patterns/streaming/][Flask will use to stream]] the
+   contents of the WAV file to the user, as the WAV file is being
+   written.
+
+   To fully understand what’s going on, you will also want to look at
+   the code for FileGenerator, MartinM2Generator, and
+   MartinM2GeneratorWorker classes.
+
+   Now that you know how I’m streaming cat pictures to you over the
+   telephone. Let’s take a look at how I built the controls for
+   dial-a-cat.
+
+** Building an IVR with Twilio
+   By default, dial-a-cat will pick a pre-rendered SSTV transmission at
+   random, play it, and keep doing that until you hang up. However, you
+   can press “0” anytime during your call and hear about the other
+   buttons you can press. For example, you can press “8” to show have
+   dial-a-cat fetch a random cat image for you off of the internet and
+   render it into an SSTV transmission.
+
+   In the telecom world, a “phone tree” or “phone menu” is called an
+   “IVR” ([[http://en.wikipedia.org/wiki/Interactive_voice_response][Interactive Voice Response]]).
+
+   Here is how I built an IVR into dial-a-cat:
+
+   The key part of building an IVR with Twilio is to use the [[http://www.twilio.com/docs/api/twiml/gather][TwiML tag]]
+   (TwiML is the XML based instruction set that you use to tell Twilio
+   what to do with your call)
+
+   The tag tells Twilio to make an HTTP request to your application
+   when the user presses one or more buttons on their phones keypad.
+
+   Let’s take a look at my code to see how I do this.
+   #+NAME: voice-route
+   #+BEGIN_SRC python :padline no
+     @app.route('/voice', methods=['GET', 'POST'])
+     def voice_main():
+         r = twiml.Response()
+         r.say("Welcome to dial a cat.")
+         r.redirect(url_for('voice_instructions', _external=True))
+         return str(r)
+   #+END_SRC
+
+   This is the main entry point for dial-a-cat. It reads the text
+   “Welcome to dial a cat” to the user and then does a redirect to the
+   code below, which reads instructions for dial-a-cat to you:
+
+   #+NAME: voice-instructions-route
+   #+BEGIN_SRC python
+     def get_gather_args():
+         return {'action': url_for('voice_handle_gather', _external=True),
+                 'numDigits': 1,
+                 'timeout': 1}
+
+
+     @app.route('/voice/instructions', methods=['GET', 'POST'])
+     def voice_instructions():
+         gather_args = get_gather_args()
+         r = twiml.Response()
+         with r.gather(**gather_args) as g:
+             g.say(("An S S T V Transmission "
+                    "in the Martin M Two format will be starting shortly."))
+             g.pause()
+             g.say("For help press 0")
+             g.pause()
+             g.say("Stand by for transmission.")
+         r.redirect(url_for('voice_prerendered_cat', _external=True))
+         return str(r)
+   #+END_SRC
+
+   The line to focus on here is this one: =with r.gather(**gather_args) as g:=
+
+   The twilio-python TwiML generator uses Python’s “with” statement to
+   generate TwiML that is wrapped in a tag. Here is the XML that the
+   statement above generates:
+
+   #+BEGIN_SRC xml
+     <?xml version="1.0" encoding="UTF-8"?>
+     <Response>
+       <Gather action="http://twilio-dial-a-cat.herokuapp.com/voice/handle-gather" numDigits="1" timeout="1">
+         <Say>An S S T V Transmission in the Martin M Two format will be starting shortly.</Say>
+         <Pause />
+         <Say>For help press 0</Say>
+         <Pause />
+         <Say>Stand by for transmission.</Say>
+       </Gather> <Redirect>http://twilio-dial-a-cat.herokuapp.com/voice/random-prerendered-cat</Redirect>
+     </Response>
+   #+END_SRC
+
+   Note the “action” property in the tag, this is the URL that Twilio
+   will send button presses to. When building a complex phone tree,
+   this URL will change as your user traverses through your phone
+   tree. I just wanted users to be able to switch between “live”
+   rendered and pre-rendered cats, so I use the same handler for
+   everything. Here is what the code for my handler looks like:
+
+   #+NAME: handle-gather-route
+   #+BEGIN_SRC python
+     @app.route('/voice/handle-gather', methods=['POST'])
+     def voice_handle_gather():
+         digit = request.form['Digits']
+         if digit == '0':
+             return redirect(url_for('voice_help', _external=True))
+         elif digit == '1':
+             return redirect(url_for('easter_egg', id='1', _external=True))
+         elif digit == '2':
+             return redirect(url_for('voice_prerendered_cat', _external=True))
+         elif digit == '4':
+             return redirect(url_for('easter_egg', id='2', _external=True))
+         elif digit == '7':
+             return redirect(url_for('easter_egg', id='3', _external=True))
+         elif digit == '8':
+             return redirect(url_for('voice_live_rendered_cat', _external=True))
+         else:
+             return redirect(url_for('voice_instructions', _external=True))
+   #+END_SRC
+
+   As you can see, this is pretty simple. Based on the digits that are
+   sent, we will return TwiML asking Twilo to the user to the
+   appropriate instructions.
+
+
+   I hope you’ve enjoyed using your telephone to receive pictures of
+   cats and I hope that you learned something useful while reading
+   about how I made dial-a-cat. The full source code for [[https://github.com/jpf/dial-a-cat][this project
+   is available on GitHub]].
+
+* Files								   :noexport:
+  :PROPERTIES:
+  :header-args: :padline no
+  :END:
+** Procfile
+   #+BEGIN_SRC text :tangle Procfile
+     web: gunicorn app:app
+   #+END_SRC
+** app.py
+   #+BEGIN_SRC python :tangle app.py :noweb yes
+     from PIL import Image
+     from random import choice
+     import os
+
+     from flask import Flask
+     from flask import Response
+     from flask import redirect
+     from flask import request
+     from flask import url_for
+     from twilio import twiml
+
+     from catapi import CatAPIPicture
+     from filegenerator import FileGenerator
+     from martinstreaming import MartinM2Generator
+     from martinstreaming import MartinM2GeneratorWorker
+
+     app = Flask(__name__)
+
+
+     @app.route('/')
+     def main():
+         return 'Hi'
+
+
+     <<handle-gather-route>>
+
+
+     <<voice-route>>
+
+
+     <<voice-instructions-route>>
+
+
+     @app.route('/voice/help', methods=['GET', 'POST'])
+     def voice_help():
+         gather_args = get_gather_args()
+         r = twiml.Response()
+         with r.gather(**gather_args) as g:
+             g.say("At any time during this call you may:")
+             g.say("Press 2 for a pre rendered cat.")
+             g.say("or.")
+             g.say("Press 8 for a live rendered cat.")
+             g.say("or.")
+             g.say("Press the pound sign to skip transmission.")
+             g.say("or.")
+             g.say("Press 0 for help.")
+             g.say("What happens when you press 7?")
+             g.say("There is only one way to find out.")
+         r.redirect(url_for('voice_instructions', _external=True))
+         return str(r)
+
+
+     <<random-prerendered-cat-route>>
+
+
+     @app.route('/voice/random-api-cat', methods=['GET', 'POST'])
+     def voice_live_rendered_cat():
+         cat = CatAPIPicture()
+         sstv_wav_url = url_for('cat_sstv_wav',
+                                id=cat.id,
+                                _external=True)
+
+         gather_args = get_gather_args()
+         r = twiml.Response()
+         r.say("Rendering a random cat image now.")
+         r.say("This will take up to thirty seconds.")
+         r.say("Please stand by for transmission.")
+         with r.gather(**gather_args) as g:
+             g.play(sstv_wav_url)
+         r.redirect(url_for('voice_live_rendered_cat', _external=True))
+         return str(r)
+
+
+     <<live-martin-m2-renderer-function>>
+
+     <<cat-api-sstv-route>>
+
+
+     @app.route('/test.wav')
+     def image_test():
+         image = Image.open('pySSTV/tests/assets/160x256_test_pattern.png')
+         return live_martin_m2_renderer(image)
+
+
+     @app.route('/easter-egg-<id>.wav')
+     def easter_egg(id):
+         filename = "easter-egg-%s.wav" % str(id)
+         wav = 'https://s3.amazonaws.com/jf-sstv-cats/%s' % filename
+         gather_args = get_gather_args()
+         r = twiml.Response()
+         with r.gather(**gather_args) as g:
+             g.play(wav)
+         r.redirect(url_for('voice_instructions', _external=True))
+         return str(r)
+
+     if __name__ == "__main__":
+         # Bind to PORT if defined, otherwise default to 5000.
+         port = int(os.environ.get('PORT', 5000))
+         if port == 5000:
+             app.debug = True
+         app.run(host='0.0.0.0', port=port)
+
+   #+END_SRC
+** catapi.py
+   #+BEGIN_SRC python :tangle catapi.py
+     from PIL import Image
+     from StringIO import StringIO
+     import re
+     import requests
+
+
+     class CatAPIPicture:
+         def __init__(self, id=False):
+             self.image = None
+             if id:
+                 self.id = id
+                 self._image_from_id()
+             else:
+                 self._random_image()
+
+         def _random_image(self):
+             url = 'http://thecatapi.com/api/images/get?format=xml&type=jpg'
+             return self._fetch_url(url)
+
+         def _image_from_id(self):
+             url = 'http://thecatapi.com/api/images/get?format=xml&id=%s' % self.id
+             return self._fetch_url(url)
+
+         def _fetch_url(self, url):
+             r = requests.get(url)
+             match = re.search(r"<id>([^<]+)</id>", r.content)
+             self.id = match.group(1)
+             match = re.search(r"<url>([^<]+)</url>", r.content)
+             self.url = match.group(1)
+             match = re.search(r"<source_url>([^<]+)</source_url>", r.content)
+             self.source_url = match.group(1)
+
+         def image_get(self):
+             r = requests.get(self.url)
+             self.image = Image.open(StringIO(r.content))
+
+         def image_scale_to_martin_m2(self):
+             target = Size((320, 256))
+             actual = Size(self.image.size)
+             changed = Size()
+             scale = float(target.width) / float(actual.width)
+             # changed.width = int(round(actual.width * scale))
+             changed.width = 160  # Resize to Martin M1, squish for M2
+             changed.height = int(round(actual.height * scale))
+             want = changed.as_tuple()
+             resized = self.image.resize(want)
+             if changed.height < target.height:
+                 # add blackness to the bottom
+                 black = Image.new('RGB', (target.width, target.height))
+                 black.paste(resized, (0, 0))
+                 resized = black
+             elif changed.height > target.height:
+                 # crop out the bottom
+                 resized = resized.crop((0, 0, target.width, target.height))
+             self.image = resized
+
+
+     class Size:
+         def __init__(self, input=None):
+             if input is None:
+                 input = (0, 0)
+             (self.width, self.height) = input
+
+         def as_tuple(self):
+             return (self.width, self.height)
+
+   #+END_SRC
+** filegenerator.py
+   #+BEGIN_SRC python :tangle filegenerator.py
+     from Queue import Queue
+     from time import sleep
+     import threading
+
+
+     class FileGenerator(object):
+         def __init__(self):
+             self.q = Queue()
+
+         def read_generator(self):
+             running = True
+             while(running):
+                 try:
+                     data = self.q.get(block=True, timeout=1)
+                     self.q.task_done()
+                     if data is None:
+                         running = False
+                     else:
+                         yield data
+                 except:
+                     running = False
+
+         def write(self, s):
+             self.q.put(s)
+
+         def close(self):
+             self.q.put(None)
+
+         def tell(self):
+             return 0
+
+         def flush(self):
+             return True
+
+
+     class GeneratorWorker(threading.Thread):
+         def __init__(self, generator):
+             self.__generator = generator
+             threading.Thread.__init__(self)
+
+         def run(self):
+             for x in self.__generator:
+                 print 'got: ', x
+
+     if __name__ == '__main__':
+         f = FileGenerator()
+
+         GeneratorWorker(f.read_generator()).start()
+
+         f.write('Test')
+         sleep(1)
+         f.write('ing')
+         f.close()
+
+   #+END_SRC
+** image-list.txt
+   #+BEGIN_SRC text :tangle image-list.txt
+     tumblr_lqeh4f9Vqa1qbqp58o1_M2.wav
+     tumblr_lqga16c2Lb1r22yyto1_M2.wav
+     tumblr_lr6hqbt1Zs1qlu9b0o1_M2.wav
+     tumblr_lrbzrbdi4Q1r1uaj2o1_M2.wav
+     tumblr_lstknctqb41r05gbwo1_M2.wav
+     tumblr_lvwl9yHNQ21r1uaj2o1_M2.wav
+     tumblr_m5bkrjZaaj1r1uaj2o1_M2.wav
+   #+END_SRC
+** martinstreaming.py
+   #+BEGIN_SRC python :tangle martinstreaming.py
+     from color import MartinM2
+     from itertools import izip_longest
+     from wave import Wave_write
+     import struct
+     import threading
+
+
+     class WaveWriteNoSeek(Wave_write):
+         def _patchheader(self):
+             return None
+
+
+     def grouper(iterable, n):
+         "Collect data into fixed-length chunks or blocks"
+         # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx
+         args = [iter(iterable)] * n
+         return izip_longest(fillvalue=None, *args)
+
+
+     class MartinM2Generator(MartinM2):
+         def write_wav_generator(self, filename):
+             """write image to a FileGenerator that will be served by Flask"""
+             wav = WaveWriteNoSeek(filename)
+             wav.setnchannels(1)
+             wav.setsampwidth(self.bits // 8)
+             wav.setframerate(self.samples_per_sec)
+             #wav.setnframes(5529608)  # Martin M1
+             wav.setnframes(2830573)  # Martin M2
+             fmt = '<' + self.BITS_TO_STRUCT[self.bits]
+
+             def not_none(thing):
+                 """remove the 'None' values added by grouper()"""
+                 return thing is not None
+
+             # arbitrary, but reasonable seeming default
+             group_size = self.samples_per_sec
+             for sample in grouper(self.gen_samples(), group_size):
+                 samples = (struct.pack(fmt, b) for b in sample if not_none(b))
+                 data = ''.join(samples)
+                 wav.writeframes(data)
+             wav.close()
+
+
+     class MartinM2GeneratorWorker(threading.Thread):
+         def __init__(self, wav, generator):
+             self.wav = wav
+             self.generator = generator
+             threading.Thread.__init__(self)
+
+         def run(self):
+             self.wav.write_wav_generator(self.generator)
+
+   #+END_SRC
+** requirements.txt
+   #+BEGIN_SRC text :tangle requirements.txt
+     Flask==0.10.1
+     Jinja2==2.7
+     MarkupSafe==0.18
+     PIL==1.1.7
+     Werkzeug==0.9.1
+     autopep8==0.9.1
+     distribute==0.6.24
+     gunicorn==0.17.4
+     httplib2==0.8
+     itsdangerous==0.21
+     mock==1.0.1
+     nose==1.3.0
+     requests==1.2.3
+     six==1.3.0
+     twilio==3.5.1
+     unittest2==0.5.1
+     wsgiref==0.1.2
+   #+END_SRC
+** tests/test_flask_app.py
+   #+BEGIN_SRC python :tange tests/test_flask_app.py
+     import unittest
+     import app as flask_app
+
+
+     class TestFlaskApp(unittest.TestCase):
+
+         def setUp(self):
+             self.app = flask_app.app.test_client()
+
+         def tearDown(self):
+             pass
+
+         def test_has_default_route(self):
+             path = "/"
+             rv = self.app.get(path)
+             self.assertEquals("200 OK", rv.status)
+             self.assertIn("Hi", rv.data)
+
+         def test_handle_gather(self):
+             path = "/voice/handle-gather"
+
+             # help
+             msg = dict(Digits='0', From='+14155551212')
+             rv = self.app.post(path, data=msg, follow_redirects=True)
+             self.assertHasGather(rv.data)
+             self.assertIn('<Redirect>', rv.data)
+             self.assertIn('instructions</Redirect>', rv.data)
+
+             # prerendered cats
+             msg = dict(Digits='2', From='+14155551212')
+             rv = self.app.post(path, data=msg, follow_redirects=True)
+             self.assertHasGather(rv.data)
+             self.assertIn('<Redirect>', rv.data)
+             self.assertIn('<Play>', rv.data)
+             self.assertIn('</Play>', rv.data)
+             self.assertIn('prerendered-cat</Redirect>', rv.data)
+
+             # live rendered cats
+             msg = dict(Digits='8', From='+14155551212')
+             rv = self.app.post(path, data=msg, follow_redirects=True)
+             self.assertHasGather(rv.data)
+             self.assertIn('<Redirect>', rv.data)
+             self.assertIn('<Play>', rv.data)
+             self.assertIn('.wav</Play>', rv.data)
+             self.assertIn('api-cat</Redirect>', rv.data)
+
+             # easter egg #1
+             msg = dict(Digits='1', From='+14155551212')
+             rv = self.app.post(path, data=msg, follow_redirects=True)
+             self.assertIn('<Play>', rv.data)
+             self.assertIn('egg-1.wav</Play>', rv.data)
+             self.assertIn('<Redirect>', rv.data)
+             self.assertIn('instructions</Redirect>', rv.data)
+
+             # easter egg #2
+             msg = dict(Digits='4', From='+14155551212')
+             rv = self.app.post(path, data=msg, follow_redirects=True)
+             self.assertIn('<Play>', rv.data)
+             self.assertIn('egg-2.wav</Play>', rv.data)
+             self.assertIn('<Redirect>', rv.data)
+             self.assertIn('instructions</Redirect>', rv.data)
+
+             # easter egg #3
+             msg = dict(Digits='7', From='+14155551212')
+             rv = self.app.post(path, data=msg, follow_redirects=True)
+             self.assertIn('<Play>', rv.data)
+             self.assertIn('egg-3.wav</Play>', rv.data)
+             self.assertIn('<Redirect>', rv.data)
+             self.assertIn('instructions</Redirect>', rv.data)
+
+         def get_and_post(self, path):
+             return_values = []
+
+             rv = self.app.get(path)
+             return_values.append(rv)
+
+             msg = {'From': '+14155551212'}
+             rv = self.app.post(path, data=msg, follow_redirects=True)
+             return_values.append(rv)
+             return return_values
+
+         def assertHasGather(self, text):
+             self.assertIn('<Gather', text)
+             self.assertIn('numDigits="1"', text)
+             self.assertIn('action="http', text)
+             self.assertIn('</Gather>', text)
+
+         def test_voice_main(self):
+             path = "/voice"
+             for rv in self.get_and_post(path):
+                 self.assertIn('<Redirect>', rv.data)
+                 self.assertIn('instructions</Redirect>', rv.data)
+
+         def test_voice_instructions(self):
+             path = "/voice/instructions"
+             for rv in self.get_and_post(path):
+                 self.assertHasGather(rv.data)
+                 self.assertIn('<Redirect>', rv.data)
+                 self.assertIn('prerendered-cat</Redirect>', rv.data)
+
+         def test_voice_help(self):
+             path = "/voice/help"
+             for rv in self.get_and_post(path):
+                 self.assertHasGather(rv.data)
+                 self.assertIn('<Redirect>', rv.data)
+                 self.assertIn('instructions</Redirect>', rv.data)
+
+         def test_voice_prerendered_cat(self):
+             path = "/voice/random-prerendered-cat"
+             for rv in self.get_and_post(path):
+                 self.assertHasGather(rv.data)
+                 self.assertIn('<Redirect>', rv.data)
+                 self.assertIn('<Play>', rv.data)
+                 self.assertIn('</Play>', rv.data)
+                 self.assertIn('prerendered-cat</Redirect>', rv.data)
+
+         def test_voice_live_rendered_cat(self):
+             path = "/voice/random-api-cat"
+             for rv in self.get_and_post(path):
+                 self.assertHasGather(rv.data)
+                 self.assertIn('<Redirect>', rv.data)
+                 self.assertIn('<Play>', rv.data)
+                 self.assertIn('.wav</Play>', rv.data)
+                 self.assertIn('api-cat</Redirect>', rv.data)
+
+         @unittest.skip("Not yet sure how to test this")
+         def test_cat_sstv_wav(self):
+             path = "/cat-api/v1/sstv-TEST.wav"
+             rv = self.app.get(path)
+             self.assertEquals('5661190', rv.headers['Content-Length'])
+             self.assertIn('RIFF', rv.data)
+
+         @unittest.skip("Not yet sure how to test this")
+         def test_image_test(self):
+             """tests the same code as cat_sstv_wav, but with a static image"""
+             path = "/test.wav"
+             rv = self.app.get(path)
+             self.assertEquals('5661190', rv.headers['Content-Length'])
+             self.assertIn('RIFF', rv.data)
+
+         def test_easter_eggs(self):
+             """easter eggs? hmm."""
+             path = "/easter-egg-1.wav"
+             rv = self.app.get(path)
+             self.assertIn('<Play>', rv.data)
+             self.assertIn('</Play>', rv.data)
+
+             path = "/easter-egg-2.wav"
+             rv = self.app.get(path)
+             self.assertIn('<Play>', rv.data)
+             self.assertIn('</Play>', rv.data)
+
+             path = "/easter-egg-3.wav"
+             rv = self.app.get(path)
+             self.assertIn('<Play>', rv.data)
+             self.assertIn('</Play>', rv.data)
+
+   #+END_SRC
+* Work done							   :noexport:
+** DONE First pass at converting this repository to a literate document
+   Aside from finding one mistake (see below) =M-x org-babel-tangle=
+   doesn't result in any changes when I do a =git diff= after the
+   =org-babel-tangle=!
+
+   #+BEGIN_EXAMPLE
+     $ git diff app.py 
+     diff --git a/app.py b/app.py
+     index 93421c2..ee088e3 100644
+     --- a/app.py
+     +++ b/app.py
+     @@ -140,7 +140,6 @@ def cat_sstv_wav(id):
+          cat.image_scale_to_martin_m2()
+          rv = live_martin_m2_renderer(cat.image)
+          timeout = 14400  # 4 hours
+     -    # timeout = 604800 # 1 week
+          rv.headers['Cache-Timeout'] = timeout
+          return rv
+   #+END_EXAMPLE
+   CLOCK: [2015-12-16 Wed 23:02]--[2015-12-17 Thu 00:14] =>  1:12
+** TODO Save, and push back to GitHub
+   CLOCK: [2015-12-17 Thu 00:15]
+** TODO Include pySSTV as a submodule
+   http://stackoverflow.com/a/17776490
+** TODO Link directly into the submodule, don't use symlinks
+** TODO Unpin [[*requirements.txt][requirements.txt]] from specific versions
+** TODO Inline tests
+   When appropriate, the functions in [[*tests/test_flask_app.py][tests/test_flask_app.py]] should
+   be put next to the functions they are testing.
