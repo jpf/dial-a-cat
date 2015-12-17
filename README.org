@@ -883,6 +883,12 @@
              self.assertIn('</Play>', rv.data)
 
    #+END_SRC
+** .gitignore
+   #+BEGIN_SRC text :tangle .gitignore
+     *.py[co]
+     venv/
+     *~
+   #+END_SRC
 * Work done							   :noexport:
 ** DONE First pass at converting this repository to a literate document
    Aside from finding one mistake (see below) =M-x org-babel-tangle=
@@ -904,8 +910,11 @@
           return rv
    #+END_EXAMPLE
    CLOCK: [2015-12-16 Wed 23:02]--[2015-12-17 Thu 00:14] =>  1:12
-** TODO Save, and push back to GitHub
-   CLOCK: [2015-12-17 Thu 00:15]
+** DONE Save, and push back to GitHub
+   CLOCK: [2015-12-17 Thu 00:15]--[2015-12-17 Thu 00:17] =>  0:02
+** DONE Add in .gitignore
+   CLOCK: [2015-12-17 Thu 00:17]--[2015-12-17 Thu 00:19] =>  0:02
+** TODO Fix FIXME images
 ** TODO Include pySSTV as a submodule
    http://stackoverflow.com/a/17776490
 ** TODO Link directly into the submodule, don't use symlinks
