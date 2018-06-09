@@ -38,9 +38,8 @@ In any event, here is what I’ll be covering in this blog post:
 Are you wondering what this all looks like? Below is a video that
 shows my cellphone and laptop to receiving a cat picture.
 
-<center>
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/B7bVzBhg_GM?rel=0&amp;start=35" allowfullscreen="" frameborder="0"></iframe>
-</center>
+[![A video that
+shows my cellphone and laptop to receiving a cat picture](https://img.youtube.com/vi/B7bVzBhg_GM/0.jpg)](https://youtu.be/B7bVzBhg_GM?t=35s)
 
 Want to try that out yourself? Before you can start “dialing” cat pictures, you’ll need the following:
 
